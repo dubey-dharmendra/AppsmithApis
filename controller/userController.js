@@ -19,11 +19,11 @@ exports.getOne = async (req, res, next) => {
  try {
   const user = await userServices.getOne(id);
   if (user) {
-   const doc = await docServices.checkDocByUserId(id)
-   if (doc != user.docStatus) {
-    updatedDoc = await userServices.userDocStatusUpdate(id, 'notVerifed')
-   }
-   const newUser = await userServices.getOne(id)
+   const userDocs = await docServices.getDocByUserId(id)
+   let userData = await userServices.getOne(id);
+   const { email, name, docStatus, role, isVerified } = userData
+   const newUser = { email, name, docStatus, role, isVerified, doc: userDocs }
+
    return res.status(200).json(newUser)
   }
   return res.status(200).json({ message: 'user Not Found' })

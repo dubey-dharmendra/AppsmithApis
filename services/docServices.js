@@ -1,4 +1,6 @@
 const docModel = require("../models/docModel");
+const userModel = require("../models/userModel");
+const userServices = require("./userServices");
 
 exports.create = async (data) => {
  return await docModel.create(data)
@@ -7,21 +9,28 @@ exports.create = async (data) => {
 exports.getAll = async () => {
  return await docModel.find()
 }
-
-exports.getDocByUserId = async (id) => {
+exports.getDocs = async (id) => {
  return await docModel.find({ userId: id })
 }
-
-exports.checkDocByUserId = async (id) => {
- console.log(id);
- const docs = await docModel.find({ userId: id });
- console.log(docs);
+exports.getDocByUserId = async (id) => {
+ let docs = await docModel.find({ userId: id })
+ const user = await userModel.findById(id)
  if (docs) {
   const docCheck = ['Post Graduation Degree And Marksheet', 'Graduation degree and Marksheet', 'Aadhar Card', 'Tenth Certificate',
    'Twelfth Certificate']
   const docNames = docs.map((e) => e.docName)
   if (docNames.length) {
-   return docCheck.every(elem => docNames.includes(elem));
+   const requiredDoc = docCheck.every(elem => docNames.includes(elem));
+   if (requiredDoc) {
+    if (user.docStatus == 'notVerifed') {
+     const userDocStatusUpdated = await userServices.userDocStatusUpdate(id, 'verifed')
+    }
+   } else {
+    if (user.docStatus == 'verifed') {
+     const userDocStatusUpdated = await userServices.userDocStatusUpdate(id, 'notVerifed')
+    }
+   }
   }
  }
+ return docs.map((e) => e.docName)
 }

@@ -8,8 +8,7 @@ const router = express.Router();
 
 router.post("/document/uplode", docController.uplodeDoc)
 router.get("/document/getAll", docController.getAll)
-router.get("/document/getDocByUserId/:id", docController.getDocByUserId)
-// router.get("/document/isverefied/:id", docController.isVerifed)
+router.get("/document/get-all-docs-by-userid/:id", docController.getDocs)
 
 
 // *************** User Routes ********** 
