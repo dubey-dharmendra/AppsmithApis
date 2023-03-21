@@ -16,7 +16,7 @@ exports.getDocByUserId = async (id) => {
  let docs = await docModel.find({ userId: id })
  const user = await userModel.findById(id)
  if (docs) {
-  const docCheck = ['Post Graduation Degree And Marksheet', 'Graduation degree and Marksheet', 'Aadhar Card', 'Tenth Certificate',
+  const docCheck = ['Pan Card', 'Graduation degree and Marksheet', 'Aadhar Card', 'Tenth Certificate',
    'Twelfth Certificate']
   const docNames = docs.map((e) => e.docName)
   if (docNames.length) {
