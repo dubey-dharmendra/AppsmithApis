@@ -23,11 +23,11 @@ exports.getDocByUserId = async (id) => {
    const requiredDoc = docCheck.every(elem => docNames.includes(elem));
    if (requiredDoc) {
     if (user.docStatus == 'notVerifed') {
-     const userDocStatusUpdated = await userServices.userDocStatusUpdate(id, 'verifed')
+     const userDocStatusUpdated = await userServices.userDocStatusUpdate(id, 'verified')
     }
    } else {
     if (user.docStatus == 'verifed') {
-     const userDocStatusUpdated = await userServices.userDocStatusUpdate(id, 'notVerifed')
+     const userDocStatusUpdated = await userServices.userDocStatusUpdate(id, 'notVerified')
     }
    }
   }
